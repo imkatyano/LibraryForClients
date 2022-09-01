@@ -1,0 +1,49 @@
+2-е задание на знание SQL запросов 
+
+Сам запрос с 35 по 40 строку
+
+(условие: "В базе данных MS SQL Server есть продукты и категории. Одному продукту может соответствовать много категорий, в одной категории может быть много продуктов. Напишите SQL запрос для выбора всех пар «Имя продукта – Имя категории». Если у продукта нет категорий, то его имя все равно должно выводиться.")
+
+
+CREATE TABLE products (
+	id INT PRIMARY KEY,
+	name TEXT
+);
+
+INSERT INTO products
+VALUES
+	(1, 'banana'),
+	(2, 'apple'),
+	(3, 'milk'),
+	(5, 'water');
+
+CREATE TABLE categories (
+	id INT PRIMARY KEY,
+	name TEXT
+);
+
+INSERT INTO Categories
+VALUES
+	(1, 'food'),
+	(2, 'liquid');
+
+CREATE TABLE ProductCategories (
+	product_id INT FOREIGN KEY REFERENCES products(id),
+	category_id INT FOREIGN KEY REFERENCES categories(id),
+	PRIMARY KEY (product_id, category_id)
+);
+
+INSERT INTO ProductCategories
+VALUES
+	(1, 1),
+	(2, 1),
+	(3, 2);
+
+SELECT products.name, categories.name
+FROM products
+LEFT JOIN ProductCategories 
+	ON products.id = ProductCategories.product_id
+LEFT JOIN categories 
+	ON ProductCategories.category_id = categories.id;
+	
+	
